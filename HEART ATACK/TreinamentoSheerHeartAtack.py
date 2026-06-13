@@ -7,6 +7,8 @@ import time
 from imblearn.over_sampling import SMOTE 
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from ModuloAvaliador import avaliadorDemodelo
+import pickle
 
 dados = pd.read_csv("DATASETS/heart_failure_clinical_records_dataset.csv", sep = ",")
 
@@ -113,3 +115,77 @@ tempo_treino = time.time() - start_time
 print(f"Tempo de treino SVC: {tempo_treino:.4f} segundos")
 
 
+avaliadorDemodelo(
+    rf_final,
+    atributos_teste,
+    target_teste,
+    "Random Forest"
+)
+
+avaliadorDemodelo(
+    svc_final,
+    atributos_teste,
+    target_teste,
+    "SVC"
+)
+"""
+Fitting 5 folds for each of 20 candidates, totalling 100 fits
+Melhores par�metros rf: {'n_estimators': 500, 'min_samples_split': 10, 'max_features': 'log2', 'max_depth': 47, 'criterion': 'gini'}
+Melhor score CV rf: 0.9140360691325039
+Melhores par�metros svc: {'kernel': 'poly', 'gamma': 'auto', 'degree': 5, 'coef0': 0.5, 'C': 10}
+Melhor score CV svc: 0.8910160263311699
+Tempo de treino RF: 0.2661 segundos
+Tempo de treino SVC: 0.0054 segundos
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+Random Forest
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+Accrcy: 0.8111111111111111
+F(uma)1: 0.7017543859649122
+ROCAUC: 0.9005087620124365
+
+Matriz de Confus�o
+[[53  8]
+ [ 9 20]]
+
+Relat�rio
+              precision    recall  f1-score   support
+
+           0       0.85      0.87      0.86        61
+           1       0.71      0.69      0.70        29
+
+    accuracy                           0.81        90
+   macro avg       0.78      0.78      0.78        90
+weighted avg       0.81      0.81      0.81        90
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+SVC
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+Accrcy: 0.7777777777777778
+F(uma)1: 0.6
+ROCAUC: 0.8134539287733181
+
+Matriz de Confus�o
+[[55  6]
+ [14 15]]
+
+Relat�rio
+              precision    recall  f1-score   support
+
+           0       0.80      0.90      0.85        61
+           1       0.71      0.52      0.60        29
+
+    accuracy                           0.78        90
+   macro avg       0.76      0.71      0.72        90
+weighted avg       0.77      0.78      0.77        90'''
+
+#ta eu ja suspeitava que random forest ia ser melhor mas achei bom testar, como tava na ementa eu suspeitei que as variaveis binarias iam dar uma dificultada mas como era
+#tudo numero achei bom testar a vector, mas mesmo assim as arvores conseguem lidar mt bem com dados binarios enquantoa vm tem aquele negocio de superfice geometrica
+# onde esse tipo de dado acaba sendo meio bunda quando apresentado dessa forma pq ela n consegue explorar tao bem as divisoes na fronteira de decisao
+#ai tmbm ja entra na minha especulacao com fonte vozes da minha cabeça, mas eu acho que de forma geral as features do dataset sao mt mais bem exploraveis por random forest do q por
+#vector machine pelo simples fato que o comportamento delas na hora de predição acaba sendo melhor pras trees do que pro modelo matematico / cartesiano da vector machine 
+"""
+pickle.dump(rf_final, open("JARRO DE PICLES(pickles)/HeartAtackRF.pkl", "wb"))
