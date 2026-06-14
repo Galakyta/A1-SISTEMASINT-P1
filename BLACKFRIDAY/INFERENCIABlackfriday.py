@@ -7,9 +7,7 @@ bf_cat = load(open("JARRO DE PICLES(pickles)/BF_categoria.pkl", "rb"))
 bf_pag = load(open("JARRO DE PICLES(pickles)/BF_pagamento.pkl", "rb"))
 bf_age = load(open("JARRO DE PICLES(pickles)/BF_idade.pkl",     "rb"))
 
-# ---------------------------------------------------------------
-# nova venda — substituir pelos dados reais
-# ---------------------------------------------------------------
+
 nova_venda = {
     "age_group": "26-35",
     "gender": "Male",
